@@ -1683,6 +1683,17 @@
       },
       (err) => {
         console.error("Firestore onSnapshot error:", err);
+        // Partner können an keiner dieser Ursachen etwas ändern und haben in
+        // der Firebase Console nichts verloren. Für sie eine schlichte
+        // Meldung, die Technik sieht nur der Admin.
+        if (!isAdmin) {
+          showConfigError("Die Liste kann gerade nicht geladen werden. " +
+            "Das liegt an einer Einstellung auf Serverseite, nicht an dir — " +
+            "deine gespeicherten Kontakte sind nicht verloren. " +
+            "Bitte melde dich beim Administrator.");
+          return;
+        }
+
         if (err.code === "failed-precondition") {
           // Kombination aus where + orderBy braucht einen zusammengesetzten
           // Index. Firestore nennt in err.message eine Adresse zum Anlegen —
