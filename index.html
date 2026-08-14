@@ -1671,9 +1671,13 @@
     // Der Admin sieht alles, jeder andere ausschliesslich seine eigenen Zeilen.
     // Die where-Bedingung ist nicht nur Anzeige: ohne sie weist Firestore die
     // Abfrage ab, weil die Regeln nicht alle Treffer erlauben würden.
+    // Bewusst OHNE orderBy: die Kombination aus where und orderBy verlangt bei
+    // Firestore einen zusammengesetzten Index, den jemand von Hand anlegen
+    // muss — und bis dahin bleibt die Liste des Partners leer, obwohl seine
+    // Daten längst gespeichert sind. Sortiert wird ohnehin in
+    // getFilteredSorted(), also ist die Sortierung auf Serverseite überflüssig.
     let query = db.collection(COLLECTION);
     if (!isAdmin) query = query.where("ownerUid", "==", currentUser.uid);
-    query = query.orderBy("createdAt", "desc");
 
     unsubRows = query.onSnapshot(
       (snap) => {
