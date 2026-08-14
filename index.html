@@ -2040,9 +2040,6 @@
       '<td data-label="Notizen"><textarea class="cell-notes" data-field="notes" data-id="' + id + '" rows="1" placeholder="Notiz…">' + escapeHtml(r.notes || "") + "</textarea></td>" +
 
       '<td data-label=""><span class="row-actions">' +
-      '<button type="button" class="icon-btn write" data-id="' + id + '" title="Anschreib-Text schreiben lassen">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg>' +
-      "</button>" +
       '<button type="button" class="icon-btn delete" data-id="' + id + '" title="Löschen">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg>' +
       "</button></span></td>" +
@@ -2117,11 +2114,6 @@
     // delete
     tbody.querySelectorAll(".icon-btn.delete").forEach((el) => {
       el.addEventListener("click", () => deleteRow(el.dataset.id));
-    });
-
-    // Anschreib-Text für eine bestehende Zeile
-    tbody.querySelectorAll(".icon-btn.write").forEach((el) => {
-      el.addEventListener("click", () => writeOutreachForRow(el));
     });
 
     // Besitzer umhängen (nur Admin)
@@ -2483,7 +2475,12 @@
     setView("tracker");
   });
 
-  /* ---------- Anschreiben für eine bestehende Zeile ---------- */
+  /* ---------- Anschreiben für eine bestehende Zeile ----------
+     DERZEIT NICHT VERDRAHTET. Der Stift-Knopf in der Aktionsspalte wurde am
+     15.08.2026 auf Wunsch entfernt; die Funktion bleibt stehen, damit sie
+     nicht neu geschrieben werden muss. Zum Reaktivieren braucht es zweierlei:
+     den Knopf in rowHtml() wieder einfügen und in attachRowHandlers() den
+     Listener auf ".icon-btn.write" setzen. */
   async function writeOutreachForRow(btn) {
     const id = btn.dataset.id;
     const row = allRows.find((r) => r.id === id);
