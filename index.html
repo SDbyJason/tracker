@@ -334,6 +334,32 @@
   tbody tr:hover { background: var(--bg-hover); }
   tbody td { padding: 10px 14px; font-size: 13.5px; vertical-align: middle; }
 
+  /* Aktionsspalte klebt am rechten Rand.
+     Die Tabelle ist breiter als jeder normale Bildschirm, und auf dem Mac sind
+     Scrollbalken unsichtbar, bis man scrollt — ohne das hier wirkt „Löschen"
+     schlicht unerreichbar. */
+  thead th:last-child,
+  tbody td:last-child {
+    position: sticky; right: 0;
+    border-left: 1px solid var(--border);
+  }
+  thead th:last-child { z-index: 3; background: var(--bg-elevated); }
+  tbody td:last-child { z-index: 2; background: var(--bg-card); }
+  tbody tr:hover td:last-child { background: var(--bg-hover); }
+
+  /* Waagerechten Scrollbalken dauerhaft zeigen, statt ihn erst beim Scrollen
+     einzublenden — sonst sieht niemand, dass rechts noch etwas kommt. */
+  .table-scroll::-webkit-scrollbar { height: 10px; }
+  .table-scroll::-webkit-scrollbar-track { background: transparent; }
+  .table-scroll::-webkit-scrollbar-thumb {
+    background: var(--border-strong); border-radius: 6px;
+    border: 2px solid transparent; background-clip: content-box;
+  }
+  .table-scroll::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); background-clip: content-box; }
+  /* Kein scrollbar-width hier: sobald die Standard-Eigenschaft gesetzt ist,
+     ignoriert Chrome die ::-webkit-scrollbar-Regeln darüber und zeigt auf
+     macOS wieder den überlagernden, unsichtbaren Balken. */
+
   .cell-input, .cell-select, textarea.cell-notes {
     width: 100%;
     border: 1px solid transparent;
@@ -465,6 +491,10 @@
     background: var(--red-dim); border: 1px solid var(--red);
     color: var(--text); padding: 14px 18px; border-radius: 12px;
     font-size: 13px; margin-bottom: 20px; line-height: 1.5;
+  }
+  .config-warning a {
+    color: var(--gold); font-weight: 600; text-decoration: underline;
+    text-underline-offset: 3px;
   }
   .config-warning code {
     background: var(--bg-input); padding: 1px 6px; border-radius: 5px; font-size: 12px;
@@ -816,6 +846,10 @@
     table { min-width: 0; }
     table, thead, tbody, tr, td { display: block; width: 100%; }
     thead { display: none; }
+    /* Als Kartenliste gibt es nichts zum Ankleben */
+    tbody td:last-child {
+      position: static; border-left: 0; background: transparent;
+    }
     tbody tr {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;
@@ -1540,6 +1574,13 @@
     el.textContent = msg;
   }
 
+  /** Wie showConfigError, aber mit Link und Auszeichnungen. */
+  function showConfigErrorHtml(html) {
+    const el = document.getElementById("configWarning");
+    el.style.display = "block";
+    el.innerHTML = html;
+  }
+
   /* =========================================================
      2) THEME
   ========================================================= */
@@ -1644,10 +1685,21 @@
         console.error("Firestore onSnapshot error:", err);
         if (err.code === "failed-precondition") {
           // Kombination aus where + orderBy braucht einen zusammengesetzten
-          // Index. Firestore legt die Adresse zum Anlegen in die Meldung.
-          showConfigError("Es fehlt ein Firestore-Index. Die Fehlermeldung in der " +
-            "Browser-Konsole enthält einen Link, der ihn mit einem Klick anlegt. " +
-            "Danach lädt die Liste von selbst.");
+          // Index. Firestore nennt in err.message eine Adresse zum Anlegen —
+          // die ist am Handy aber unbrauchbar, deshalb hier auch der Weg
+          // über die Oberfläche.
+          const m = /https:\/\/\S+/.exec(err.message || "");
+          showConfigErrorHtml(
+            "<strong>Es fehlt ein Firestore-Index.</strong> Bereits gespeicherte " +
+            "Kontakte sind nicht verloren — sie können nur nicht angezeigt werden, " +
+            "bis der Index existiert." +
+            (m ? '<br><br><a href="' + escapeAttr(m[0]) + '" target="_blank" rel="noopener noreferrer">' +
+                 "Index jetzt anlegen</a> (Firebase-Login nötig)" : "") +
+            "<br><br>Von Hand: Firebase Console → Firestore Database → Indexes → " +
+            "Verbundindex erstellen → Sammlung <code>influencers</code>, Feld " +
+            "<code>ownerUid</code> aufsteigend, Feld <code>createdAt</code> absteigend. " +
+            "Der Aufbau dauert ein paar Minuten, danach lädt die Liste von selbst."
+          );
         } else if (err.code === "permission-denied") {
           showConfigError("Keine Leseberechtigung. Entweder ist dein Account nicht " +
             "freigeschaltet, oder die Firestore-Regeln passen nicht zur App.");
