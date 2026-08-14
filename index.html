@@ -658,12 +658,195 @@
   .scout-bar .count { font-size: 13px; color: var(--text-secondary); }
   .scout-bar .spacer { flex: 1 1 auto; }
 
+  /* ---------- Wartebildschirm (pending / gesperrt) ---------- */
+  .gate-screen {
+    position: fixed; inset: 0; z-index: 60;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px; background: var(--page-gradient);
+  }
+  .gate-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 34px 32px; max-width: 440px; width: 100%;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .gate-card .gate-icon {
+    width: 42px; height: 42px; margin: 0 auto 16px;
+    color: var(--gold); opacity: .85;
+  }
+  .gate-card.blocked .gate-icon { color: var(--red); }
+  .gate-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px; font-weight: 600; margin: 0 0 10px;
+  }
+  .gate-card p {
+    margin: 0 0 22px; font-size: 13.5px; line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .gate-card .mail { color: var(--text); font-weight: 500; }
+
+  /* ---------- Ziele ---------- */
+  .stat-card .target {
+    margin-top: 9px; font-size: 11px; color: var(--text-tertiary);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .stat-card .target .bar {
+    flex: 1 1 auto; height: 4px; border-radius: 3px;
+    background: var(--bg-input); overflow: hidden;
+  }
+  .stat-card .target .bar span {
+    display: block; height: 100%; border-radius: 3px;
+    background: var(--gold); transition: width .3s ease;
+  }
+  .stat-card .target.done .bar span { background: var(--green); }
+  .stat-card .target.done { color: var(--green); }
+
+  /* ---------- Besitzer-Spalte (nur Admin) ---------- */
+  .owner-select {
+    background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--text-secondary); font-family: inherit; font-size: 12px;
+    padding: 5px 8px; border-radius: 8px; outline: none;
+    max-width: 150px; cursor: pointer;
+  }
+  .owner-select:focus { border-color: var(--gold); color: var(--text); }
+  .owner-select.unassigned {
+    border-color: var(--red); color: var(--red); background: var(--red-dim);
+  }
+
+  /* ---------- Admin-Ansicht ---------- */
+  .admin-intro {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 22px; margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .admin-intro h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 600; margin: 0 0 6px;
+  }
+  .admin-intro p {
+    margin: 0; font-size: 13px; line-height: 1.55;
+    color: var(--text-secondary); max-width: 720px;
+  }
+
+  .user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+  .user-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 17px 18px;
+    display: flex; flex-direction: column; gap: 13px;
+  }
+  .user-card.pending { border-color: var(--gold); }
+  .user-card.blocked { opacity: .68; }
+  .user-card.self { border-color: var(--border-strong); }
+
+  .user-head { display: flex; align-items: flex-start; gap: 11px; }
+  .user-head .who { flex: 1 1 auto; min-width: 0; }
+  .user-mail {
+    font-size: 13.5px; font-weight: 600; margin: 0 0 3px;
+    word-break: break-all;
+  }
+  .user-meta { font-size: 11.5px; color: var(--text-tertiary); }
+
+  .user-status {
+    flex: 0 0 auto; font-size: 11px; padding: 3px 10px;
+    border-radius: 20px; border: 1px solid; white-space: nowrap;
+  }
+  .user-status.active  { color: var(--green); border-color: var(--green); background: var(--green-dim); }
+  .user-status.pending { color: var(--gold);  border-color: var(--gold);  background: var(--gold-dim); }
+  .user-status.blocked { color: var(--red);   border-color: var(--red);   background: var(--red-dim); }
+
+  .user-counts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .user-count {
+    font-size: 11.5px; padding: 3px 9px; border-radius: 20px;
+    border: 1px solid var(--border); color: var(--text-secondary);
+    background: var(--bg-input);
+  }
+
+  .user-targets {
+    border-top: 1px solid var(--border); padding-top: 12px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px;
+  }
+  .user-targets label {
+    display: block; font-size: 10.5px; color: var(--text-tertiary);
+    margin-bottom: 4px; line-height: 1.3;
+  }
+  .user-targets input {
+    width: 100%; background: var(--bg-input);
+    border: 1px solid var(--border); color: var(--text);
+    font-family: inherit; font-size: 13px; padding: 6px 9px;
+    border-radius: 8px; outline: none;
+  }
+  .user-targets input:focus { border-color: var(--gold); }
+
+  .user-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .user-actions .btn { font-size: 12px; padding: 7px 12px; }
+  .btn.btn-danger { border-color: var(--red); color: var(--red); }
+  .btn.btn-danger:hover { background: var(--red-dim); }
+  .btn.btn-ok { border-color: var(--green); color: var(--green); }
+  .btn.btn-ok:hover { background: var(--green-dim); }
+
+  /* ---------- Handy ---------- */
   @media (max-width: 720px) {
-    .app { padding: 18px 14px 60px; }
-    .stats { display: none; }
-    .tab span { display: none; }
-    .tab { padding: 8px 13px; }
-    .scout-grid { grid-template-columns: 1fr; }
+    .app { padding: 16px 12px 56px; }
+
+    header.top { flex-wrap: wrap; gap: 12px; }
+    .brand h1 { font-size: 19px; }
+    .tabs { order: 3; width: 100%; justify-content: space-between; }
+    .tab { flex: 1 1 0; justify-content: center; padding: 9px 8px; }
+    .tab span { display: inline; font-size: 12.5px; }
+
+    /* Kennzahlen bleiben sichtbar — auf dem Handy sind sie das Wichtigste */
+    .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 13px 14px; }
+    .stat-card .num { font-size: 22px; }
+
+    .toolbar { gap: 9px; }
+    .search-box { flex: 1 1 100%; }
+    .filter-select, .sort-select { flex: 1 1 calc(50% - 5px); min-width: 0; }
+    .toolbar .spacer { display: none; }
+    .toolbar .btn { flex: 1 1 calc(50% - 5px); justify-content: center; }
+
+    /* Tabelle wird zur Kartenliste — kein seitliches Scrollen mehr */
+    .table-wrap { background: transparent; border: 0; box-shadow: none; }
+    .table-scroll { overflow: visible; }
+    /* Die Mindestbreite von 1220px gilt nur für die echte Tabelle —
+       als Kartenliste muss sie weg, sonst laufen die Felder aus dem Bild. */
+    table { min-width: 0; }
+    table, thead, tbody, tr, td { display: block; width: 100%; }
+    thead { display: none; }
+    tbody tr {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    tbody td {
+      display: flex; align-items: center; gap: 10px;
+      padding: 5px 0; border: 0;
+    }
+    tbody td::before {
+      content: attr(data-label);
+      flex: 0 0 96px; font-size: 11px; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    tbody td[data-label=""]::before { display: none; }
+    tbody td > *:not(.row-actions) { flex: 1 1 auto; min-width: 0; max-width: 100%; }
+    tbody td .cell-input, tbody td .cell-select, tbody td .cell-notes {
+      width: 100%; max-width: 100%;
+    }
+    /* Schalter und Sterne behalten ihre Grösse, statt in die Breite zu laufen */
+    tbody td .toggle-switch, tbody td .stars { flex: 0 0 auto; }
+    tbody td .platform-badge { display: flex; align-items: center; gap: 8px; width: 100%; }
+    tbody td .platform-badge .cell-select { flex: 1 1 auto; }
+    tbody td .row-actions { flex: 1 1 auto; justify-content: flex-end; }
+    tbody td .link-cell { display: flex; gap: 8px; width: 100%; }
+
+    .scout-grid, .user-grid { grid-template-columns: 1fr; }
+    .user-targets { grid-template-columns: 1fr; }
+    .scout-form .scout-input { flex: 1 1 100%; }
+    .scout-bar { flex-direction: column; align-items: stretch; }
+    .scout-bar .btn { justify-content: center; }
   }
 </style>
 </head>
@@ -689,6 +872,17 @@
   </div>
 </div>
 
+<div id="gateScreen" class="gate-screen">
+  <div class="gate-card" id="gateCard">
+    <svg class="gate-icon" id="gateIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>
+    </svg>
+    <h2 class="display" id="gateTitle">Freischaltung ausstehend</h2>
+    <p id="gateText"></p>
+    <button class="btn" id="gateLogoutBtn">Abmelden</button>
+  </div>
+</div>
+
 <div class="app" style="display:none">
 
   <header class="top">
@@ -701,9 +895,13 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>
         <span>Tracker</span>
       </button>
-      <button type="button" class="tab" id="tabScout" role="tab" aria-selected="false">
+      <button type="button" class="tab" id="tabScout" role="tab" aria-selected="false" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         <span>Scout</span>
+      </button>
+      <button type="button" class="tab" id="tabAdmin" role="tab" aria-selected="false" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Team</span>
       </button>
     </div>
     <div class="header-actions">
@@ -726,6 +924,7 @@
     <div class="stat-card">
       <div class="num display" id="statTotal">0</div>
       <div class="label">Gesamt</div>
+      <div class="target" id="targetContacts" style="display:none"></div>
     </div>
     <div class="stat-card">
       <div class="num display gold" id="statVerhandlung">0</div>
@@ -734,14 +933,19 @@
     <div class="stat-card">
       <div class="num display green" id="statFix">0</div>
       <div class="label">Deal fix</div>
+      <div class="target" id="targetDeals" style="display:none"></div>
     </div>
     <div class="stat-card">
       <div class="num display" id="statAntwort">0</div>
       <div class="label">Antwort erhalten</div>
+      <div class="target" id="targetReplies" style="display:none"></div>
     </div>
   </div>
 
   <div class="toolbar">
+    <select class="filter-select" id="ownerFilter" style="display:none">
+      <option value="">Alle Partner</option>
+    </select>
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
       <input type="text" id="searchInput" placeholder="Suche nach Name oder Notiz…">
@@ -787,6 +991,7 @@
         <thead>
           <tr>
             <th class="sortable" data-sort="priority">Prio</th>
+            <th class="ownerCol" style="display:none">Gehört zu</th>
             <th class="sortable" data-sort="name">Name / Kanal</th>
             <th>Plattform</th>
             <th>Profil-Link</th>
@@ -862,6 +1067,29 @@
     </div>
 
   </div><!-- /viewScout -->
+
+  <div id="viewAdmin" style="display:none">
+
+    <div class="admin-intro">
+      <h2 class="display">Team</h2>
+      <p>
+        Neue Accounts starten gesperrt und sehen nichts, bis du sie freigibst. Jeder Partner
+        sieht ausschliesslich seine eigenen Kontakte — du siehst alle. Ziele erscheinen beim
+        Partner als Fortschritt über seinen Kennzahlen.
+      </p>
+    </div>
+
+    <div class="scout-error" id="adminError"></div>
+
+    <div class="user-grid" id="userGrid"></div>
+
+    <div class="empty-state" id="adminEmpty" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <p>Noch keine weiteren Accounts</p>
+      <p class="hint">Sobald sich jemand registriert, taucht er hier zur Freigabe auf.</p>
+    </div>
+
+  </div><!-- /viewAdmin -->
 
 </div>
 
@@ -1030,6 +1258,12 @@
   };
 
   const COLLECTION = "influencers";
+  const PROFILES   = "userProfiles";
+  const ADMINS     = "admins";
+
+  // Muss mit der Liste in firestore.rules übereinstimmen. Diese Adresse ist
+  // immer Admin — auch wenn die admins-Sammlung leer ist.
+  const ADMIN_EMAILS = ["jziborius@gmail.com"];
   let db = null;
   let auth = null;
   let firebaseReady = false;
@@ -1144,21 +1378,152 @@
   // Grund: startAuth() ruft subscribe() -> render() auf, und render() braucht
   // PLATFORMS, STATUS und localDemoStore. Die stehen weiter unten und sind mit
   // const/let deklariert, also hier oben noch nicht benutzbar.
+  const gateScreenEl = document.getElementById("gateScreen");
+
+  function showGate(kind) {
+    const card  = document.getElementById("gateCard");
+    const title = document.getElementById("gateTitle");
+    const text  = document.getElementById("gateText");
+    const icon  = document.getElementById("gateIcon");
+
+    if (kind === "blocked") {
+      card.className = "gate-card blocked";
+      title.textContent = "Zugang gesperrt";
+      text.innerHTML = "Dein Zugang wurde deaktiviert. Melde dich beim Administrator, " +
+        "wenn du glaubst, dass das ein Versehen ist.<br><br>" +
+        '<span class="mail">' + escapeHtml((currentUser && currentUser.email) || "") + "</span>";
+      icon.innerHTML = '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>';
+    } else {
+      card.className = "gate-card";
+      title.textContent = "Freischaltung ausstehend";
+      text.innerHTML = "Dein Account wurde angelegt und wartet auf die Freigabe durch den " +
+        "Administrator. Sobald er dich freischaltet, erscheint der Tracker hier automatisch — " +
+        "du musst die Seite nicht neu laden.<br><br>" +
+        '<span class="mail">' + escapeHtml((currentUser && currentUser.email) || "") + "</span>";
+      icon.innerHTML = '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>';
+    }
+
+    gateScreenEl.style.display = "flex";
+    appEl.style.display = "none";
+    authScreenEl.style.display = "none";
+  }
+
+  /** Legt das eigene Profil an, falls es noch keins gibt. */
+  async function ensureProfile(user) {
+    const ref = db.collection(PROFILES).doc(user.uid);
+    const snap = await ref.get();
+    if (!snap.exists) {
+      await ref.set({
+        email: user.email || "",
+        displayName: "",
+        // Neue Accounts sind gesperrt, bis der Admin sie freigibt.
+        // Admins schalten sich selbst frei — sonst sperrt sich der Erste aus.
+        status: isAdmin ? "active" : "pending",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      // Nur lastSeen — die Regeln lassen den Nutzer sonst nichts ändern.
+      ref.update({ lastSeen: firebase.firestore.FieldValue.serverTimestamp() })
+         .catch(() => { /* unkritisch */ });
+    }
+    return ref;
+  }
+
+  async function isAdminUser(user) {
+    if (ADMIN_EMAILS.includes((user.email || "").toLowerCase())) return true;
+    try {
+      const doc = await db.collection(ADMINS).doc(user.uid).get();
+      return doc.exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /** Entscheidet anhand des Profils, was der Nutzer zu sehen bekommt. */
+  function applyAccess() {
+    const status = isAdmin ? "active" : (myProfile && myProfile.status) || "pending";
+
+    if (status !== "active") {
+      cleanupRowSubscription();
+      // Tabs eines vorherigen Logins zurücksetzen, sonst blitzen sie beim
+      // nächsten Nutzer kurz auf.
+      document.getElementById("tabScout").style.display = "none";
+      document.getElementById("tabAdmin").style.display = "none";
+      setView("tracker");
+      showGate(status === "blocked" ? "blocked" : "pending");
+      return;
+    }
+
+    gateScreenEl.style.display = "none";
+    appEl.style.display = "block";
+
+    // Scout und Team sind Admin-Sache. Scout deshalb, weil jede Suche auf
+    // deine Rechnung läuft — solange der Worker nur ein geteiltes Passwort
+    // prüft, bekommt ihn niemand ausser dir zu sehen.
+    document.getElementById("tabScout").style.display = isAdmin ? "inline-flex" : "none";
+    document.getElementById("tabAdmin").style.display = isAdmin ? "inline-flex" : "none";
+    document.getElementById("ownerFilter").style.display = isAdmin ? "" : "none";
+    document.querySelectorAll(".ownerCol").forEach((el) => {
+      el.style.display = isAdmin ? "" : "none";
+    });
+
+    // Wechselt jemand ohne Adminrechte in eine Sitzung, in der zuletzt Scout
+    // oder Team offen war, muss der Bereich zurückgesetzt werden — sonst
+    // bleibt der Inhalt sichtbar, obwohl der Reiter verschwunden ist.
+    const openTab = document.querySelector(".tab.active");
+    if (!openTab || openTab.style.display === "none") setView("tracker");
+
+    subscribe();
+    if (isAdmin) subscribeProfiles();
+  }
+
+  function cleanupRowSubscription() {
+    if (unsubRows) { unsubRows(); unsubRows = null; }
+    allRows = [];
+  }
+
   function startAuth() {
     if (firebaseReady) {
       authScreenEl.style.display = "flex";
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          authScreenEl.style.display = "none";
-          appEl.style.display = "block";
-          logoutBtn.style.display = "inline-flex";
-          logoutBtn.title = "Abmelden (" + user.email + ")";
-          subscribe();
-        } else {
+      auth.onAuthStateChanged(async (user) => {
+        cleanupSubscriptions();
+
+        if (!user) {
+          currentUser = null;
+          isAdmin = false;
           authScreenEl.style.display = "flex";
+          gateScreenEl.style.display = "none";
           appEl.style.display = "none";
           logoutBtn.style.display = "none";
           authForm.reset();
+          return;
+        }
+
+        currentUser = user;
+        logoutBtn.style.display = "inline-flex";
+        logoutBtn.title = "Abmelden (" + user.email + ")";
+        authScreenEl.style.display = "none";
+
+        try {
+          isAdmin = await isAdminUser(user);
+          await ensureProfile(user);
+
+          // Live mithören: schaltet der Admin frei oder sperrt, ändert sich
+          // die Ansicht sofort, ohne dass jemand neu laden muss.
+          unsubMyProfile = db.collection(PROFILES).doc(user.uid).onSnapshot(
+            (snap) => {
+              myProfile = snap.exists ? snap.data() : null;
+              applyAccess();
+            },
+            (err) => {
+              console.error("Profil-Abo fehlgeschlagen:", err);
+              showConfigError("Dein Profil konnte nicht geladen werden: " + err.message);
+            }
+          );
+        } catch (err) {
+          console.error("Anmeldung unvollständig:", err);
+          showConfigError("Anmeldung unvollständig: " + err.message);
         }
       });
     } else {
@@ -1167,6 +1532,12 @@
       appEl.style.display = "block";
       subscribe();
     }
+  }
+
+  function showConfigError(msg) {
+    const el = document.getElementById("configWarning");
+    el.style.display = "block";
+    el.textContent = msg;
   }
 
   /* =========================================================
@@ -1216,26 +1587,97 @@
   let localDemoStore = [];   // used only when Firebase isn't configured
   let localIdCounter = 1;
 
+  let currentUser  = null;   // Firebase-Nutzer
+  let myProfile    = null;   // userProfiles/{uid}
+  let isAdmin      = false;
+  let allProfiles  = {};     // uid -> Profil (nur für Admins gefüllt)
+  let ownerFilterValue = ""; // Admin-Filter: leer = alle Partner
+
+  let unsubRows = null, unsubMyProfile = null, unsubProfiles = null;
+
+  function cleanupSubscriptions() {
+    [unsubRows, unsubMyProfile, unsubProfiles].forEach((fn) => { if (fn) fn(); });
+    unsubRows = unsubMyProfile = unsubProfiles = null;
+    allRows = [];
+    allProfiles = {};
+    myProfile = null;
+  }
+
+  /** Anzeigename eines Partners — Anzeigename, sonst E-Mail, sonst UID-Fragment. */
+  function ownerLabel(uid) {
+    if (!uid) return "nicht zugeordnet";
+    const p = allProfiles[uid];
+    if (p && p.displayName) return p.displayName;
+    if (p && p.email) return p.email;
+    if (currentUser && uid === currentUser.uid) return currentUser.email;
+    return uid.slice(0, 6) + "…";
+  }
+
   /* =========================================================
      5) DEMO / LOCAL FALLBACK (only active without Firebase config)
   ========================================================= */
   function localSave() { /* in-memory only, intentionally not persisted */ }
 
   function subscribe() {
-    if (firebaseReady) {
-      db.collection(COLLECTION).orderBy("createdAt", "desc").onSnapshot(
-        (snap) => {
-          allRows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-          render();
-        },
-        (err) => {
-          console.error("Firestore onSnapshot error:", err);
-        }
-      );
-    } else {
+    if (!firebaseReady) {
       allRows = localDemoStore;
       render();
+      return;
     }
+
+    cleanupRowSubscription();
+
+    // Der Admin sieht alles, jeder andere ausschliesslich seine eigenen Zeilen.
+    // Die where-Bedingung ist nicht nur Anzeige: ohne sie weist Firestore die
+    // Abfrage ab, weil die Regeln nicht alle Treffer erlauben würden.
+    let query = db.collection(COLLECTION);
+    if (!isAdmin) query = query.where("ownerUid", "==", currentUser.uid);
+    query = query.orderBy("createdAt", "desc");
+
+    unsubRows = query.onSnapshot(
+      (snap) => {
+        allRows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        document.getElementById("configWarning").style.display = "none";
+        render();
+      },
+      (err) => {
+        console.error("Firestore onSnapshot error:", err);
+        if (err.code === "failed-precondition") {
+          // Kombination aus where + orderBy braucht einen zusammengesetzten
+          // Index. Firestore legt die Adresse zum Anlegen in die Meldung.
+          showConfigError("Es fehlt ein Firestore-Index. Die Fehlermeldung in der " +
+            "Browser-Konsole enthält einen Link, der ihn mit einem Klick anlegt. " +
+            "Danach lädt die Liste von selbst.");
+        } else if (err.code === "permission-denied") {
+          showConfigError("Keine Leseberechtigung. Entweder ist dein Account nicht " +
+            "freigeschaltet, oder die Firestore-Regeln passen nicht zur App.");
+        } else {
+          showConfigError("Daten konnten nicht geladen werden: " + err.message);
+        }
+      }
+    );
+  }
+
+  /** Nur für Admins: alle Partnerprofile mithören. */
+  function subscribeProfiles() {
+    if (!firebaseReady || !isAdmin) return;
+    if (unsubProfiles) { unsubProfiles(); unsubProfiles = null; }
+
+    unsubProfiles = db.collection(PROFILES).onSnapshot(
+      (snap) => {
+        allProfiles = {};
+        snap.docs.forEach((d) => { allProfiles[d.id] = d.data(); });
+        renderOwnerFilter();
+        renderAdmin();
+        render(); // Besitzer-Spalte braucht die Namen
+      },
+      (err) => {
+        console.error("Profile-Abo fehlgeschlagen:", err);
+        const el = document.getElementById("adminError");
+        el.textContent = "Partnerliste konnte nicht geladen werden: " + err.message;
+        el.classList.add("show");
+      }
+    );
   }
 
   function addRow() {
@@ -1250,10 +1692,18 @@
       lastContact: "",
       notes: "",
       priority: 0,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      // Ohne Besitzer weisen die Regeln das Schreiben ab — und die Zeile
+      // wäre für ihren Ersteller unsichtbar.
+      ownerUid: currentUser ? currentUser.uid : null
     };
     if (firebaseReady) {
-      db.collection(COLLECTION).add({ ...newRow, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      db.collection(COLLECTION)
+        .add({ ...newRow, createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+        .catch((e) => {
+          console.error("Anlegen fehlgeschlagen:", e);
+          window.alert("Der Kontakt konnte nicht angelegt werden:\n\n" + e.message);
+        });
     } else {
       newRow.id = "local_" + (localIdCounter++);
       localDemoStore.unshift(newRow);
@@ -1324,6 +1774,13 @@
     }
     if (platformFilter.value) rows = rows.filter((r) => r.platform === platformFilter.value);
     if (statusFilter.value) rows = rows.filter((r) => r.status === statusFilter.value);
+
+    // Admin-Filter: einzelner Partner, oder die noch nicht zugeordneten Zeilen
+    if (isAdmin && ownerFilterValue) {
+      rows = ownerFilterValue === "__none__"
+        ? rows.filter((r) => !r.ownerUid)
+        : rows.filter((r) => r.ownerUid === ownerFilterValue);
+    }
 
     const { field, dir } = currentSort;
     rows.sort((a, b) => {
@@ -1405,6 +1862,9 @@
     document.getElementById("statAntwort").textContent = allRows.filter((r) => r.antwortErhalten).length;
     document.getElementById("subCount").textContent = allRows.length ? allRows.length + " Kontakte" : "";
 
+    renderTargets();
+    if (isAdmin) { renderOwnerFilter(); renderAdmin(); }
+
     if (rows.length === 0) {
       tbody.innerHTML = "";
       emptyState.style.display = "block";
@@ -1419,6 +1879,44 @@
     attachRowHandlers();
   }
 
+  /* ---------- Ziele ----------
+     Kontakte zählen für den laufenden Kalendermonat (dafür gibt es createdAt).
+     Deals und Antworten sind Zustände, keine Ereignisse — die zählen gesamt.
+     Beim Admin bleibt die Anzeige aus: er sieht alle Zeilen, ein Ziel darüber
+     wäre eine Zahl ohne Bedeutung. Seine Partner-Ziele stehen im Team-Tab. */
+  function computeTargetStats() {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    return {
+      contacts: allRows.filter((r) => toMillis(r.createdAt) >= monthStart).length,
+      deals:    allRows.filter((r) => r.status === "deal_fix").length,
+      replies:  allRows.filter((r) => r.antwortErhalten).length
+    };
+  }
+
+  function renderTargets() {
+    const targets = (!isAdmin && myProfile && myProfile.targets) || null;
+    const map = {
+      targetContacts: { key: "contacts", label: "Monat" },
+      targetDeals:    { key: "deals",    label: "Ziel" },
+      targetReplies:  { key: "replies",  label: "Ziel" }
+    };
+    const stats = targets ? computeTargetStats() : null;
+
+    Object.entries(map).forEach(([elId, cfg]) => {
+      const el = document.getElementById(elId);
+      const goal = targets && Number(targets[cfg.key]) || 0;
+      if (!goal) { el.style.display = "none"; return; }
+
+      const have = stats[cfg.key];
+      const pct = Math.min(100, Math.round((have / goal) * 100));
+      el.style.display = "flex";
+      el.classList.toggle("done", have >= goal);
+      el.innerHTML = '<span>' + cfg.label + " " + have + "/" + goal + "</span>" +
+        '<span class="bar"><span style="width:' + pct + '%"></span></span>';
+    });
+  }
+
   function rowHtml(r) {
     const id = r.id;
     const platformOpts = Object.entries(PLATFORMS)
@@ -1431,34 +1929,50 @@
     const link = r.profileLink || "";
     const safeLink = link && !/^https?:\/\//i.test(link) ? "https://" + link : link;
 
+    // Besitzer-Auswahl nur für Admins. Zeilen ohne Besitzer werden rot
+    // markiert — das sind die Altbestände, die noch zugeordnet werden müssen.
+    let ownerCell = "";
+    if (isAdmin) {
+      const opts = ['<option value="">— nicht zugeordnet —</option>']
+        .concat(Object.keys(allProfiles).map((u) =>
+          '<option value="' + escapeAttr(u) + '"' + (r.ownerUid === u ? " selected" : "") + ">" +
+          escapeHtml(ownerLabel(u)) + "</option>"))
+        .join("");
+      ownerCell = '<td class="ownerCol" data-label="Gehört zu">' +
+        '<select class="owner-select' + (r.ownerUid ? "" : " unassigned") +
+        '" data-owner-for="' + id + '">' + opts + "</select></td>";
+    }
+
     return (
       '<tr data-id="' + id + '">' +
-      '<td>' + starsHtml(id, r.priority) + "</td>" +
+      '<td data-label="Priorität">' + starsHtml(id, r.priority) + "</td>" +
 
-      '<td><input class="cell-input name" data-field="name" data-id="' + id + '" value="' + escapeAttr(r.name || "") + '" placeholder="Name / Kanal"></td>' +
+      ownerCell +
 
-      '<td><span class="platform-badge"><span class="platform-dot" style="background:' + platformColor + '"></span>' +
+      '<td data-label="Name"><input class="cell-input name" data-field="name" data-id="' + id + '" value="' + escapeAttr(r.name || "") + '" placeholder="Name / Kanal"></td>' +
+
+      '<td data-label="Plattform"><span class="platform-badge"><span class="platform-dot" style="background:' + platformColor + '"></span>' +
       '<select class="cell-select platform-select" data-field="platform" data-id="' + id + '">' + platformOpts + "</select></span></td>" +
 
-      '<td><span class="link-cell">' +
+      '<td data-label="Profil"><span class="link-cell">' +
       '<input class="cell-input" data-field="profileLink" data-id="' + id + '" value="' + escapeAttr(link) + '" placeholder="Profil-URL">' +
       '<a class="open-link-btn ' + (link ? "" : "disabled") + '" href="' + escapeAttr(safeLink) + '" target="_blank" rel="noopener noreferrer" title="Profil öffnen">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>' +
       "</a></span></td>" +
 
-      '<td><select class="cell-select status-pill" data-field="status" data-id="' + id + '" style="' + statusPillStyle(r.status) + '">' + statusOpts + "</select></td>" +
+      '<td data-label="Status"><select class="cell-select status-pill" data-field="status" data-id="' + id + '" style="' + statusPillStyle(r.status) + '">' + statusOpts + "</select></td>" +
 
-      '<td><button type="button" class="toggle-switch ' + (r.antwortErhalten ? "on" : "") + '" data-field="antwortErhalten" data-id="' + id + '" title="Antwort erhalten"></button></td>' +
+      '<td data-label="Antwort"><button type="button" class="toggle-switch ' + (r.antwortErhalten ? "on" : "") + '" data-field="antwortErhalten" data-id="' + id + '" title="Antwort erhalten"></button></td>' +
 
-      '<td><input class="cell-input num followers-val" data-field="followers" data-id="' + id + '" type="number" min="0" value="' + (r.followers || 0) + '" title="' + formatFollowers(r.followers) + '"></td>' +
+      '<td data-label="Follower"><input class="cell-input num followers-val" data-field="followers" data-id="' + id + '" type="number" min="0" value="' + (r.followers || 0) + '" title="' + formatFollowers(r.followers) + '"></td>' +
 
-      '<td><input class="cell-input num" data-field="commissionPercent" data-id="' + id + '" type="number" min="0" max="100" step="0.5" value="' + (r.commissionPercent || 0) + '">%</td>' +
+      '<td data-label="Provision"><input class="cell-input num" data-field="commissionPercent" data-id="' + id + '" type="number" min="0" max="100" step="0.5" value="' + (r.commissionPercent || 0) + '">%</td>' +
 
-      '<td><input class="cell-input date" data-field="lastContact" data-id="' + id + '" type="date" value="' + (r.lastContact || "") + '"></td>' +
+      '<td data-label="Kontakt"><input class="cell-input date" data-field="lastContact" data-id="' + id + '" type="date" value="' + (r.lastContact || "") + '"></td>' +
 
-      '<td><textarea class="cell-notes" data-field="notes" data-id="' + id + '" rows="1" placeholder="Notiz…">' + escapeHtml(r.notes || "") + "</textarea></td>" +
+      '<td data-label="Notizen"><textarea class="cell-notes" data-field="notes" data-id="' + id + '" rows="1" placeholder="Notiz…">' + escapeHtml(r.notes || "") + "</textarea></td>" +
 
-      '<td><span class="row-actions">' +
+      '<td data-label=""><span class="row-actions">' +
       '<button type="button" class="icon-btn write" data-id="' + id + '" title="Anschreib-Text schreiben lassen">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 00-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/></svg>' +
       "</button>" +
@@ -1542,6 +2056,20 @@
     tbody.querySelectorAll(".icon-btn.write").forEach((el) => {
       el.addEventListener("click", () => writeOutreachForRow(el));
     });
+
+    // Besitzer umhängen (nur Admin)
+    tbody.querySelectorAll(".owner-select").forEach((el) => {
+      el.addEventListener("change", () => {
+        const id = el.dataset.ownerFor;
+        const newOwner = el.value || null;
+        db.collection(COLLECTION).doc(id).update({ ownerUid: newOwner })
+          .then(flashSaved)
+          .catch((e) => {
+            console.error("Zuordnung fehlgeschlagen:", e);
+            window.alert("Die Zuordnung konnte nicht gespeichert werden:\n\n" + e.message);
+          });
+      });
+    });
   }
 
   /* =========================================================
@@ -1609,18 +2137,27 @@
   let scoutSelected = new Set(); // Indizes der angehakten Karten
 
   /* ---------- Tabs ---------- */
+  const tabAdmin  = document.getElementById("tabAdmin");
+  const viewAdmin = document.getElementById("viewAdmin");
+
   function setView(name) {
-    const scout = name === "scout";
-    viewTracker.style.display = scout ? "none" : "block";
-    viewScout.style.display   = scout ? "block" : "none";
-    tabTracker.classList.toggle("active", !scout);
-    tabScout.classList.toggle("active", scout);
-    tabTracker.setAttribute("aria-selected", String(!scout));
-    tabScout.setAttribute("aria-selected", String(scout));
-    if (scout) renderScout(); // Duplikat-Markierungen auffrischen
+    const views = { tracker: viewTracker, scout: viewScout, admin: viewAdmin };
+    const tabs  = { tracker: tabTracker,  scout: tabScout,  admin: tabAdmin  };
+
+    Object.entries(views).forEach(([k, el]) => {
+      el.style.display = k === name ? "block" : "none";
+    });
+    Object.entries(tabs).forEach(([k, el]) => {
+      el.classList.toggle("active", k === name);
+      el.setAttribute("aria-selected", String(k === name));
+    });
+
+    if (name === "scout") renderScout(); // Duplikat-Markierungen auffrischen
+    if (name === "admin") renderAdmin();
   }
   tabTracker.addEventListener("click", () => setView("tracker"));
   tabScout.addEventListener("click", () => setView("scout"));
+  tabAdmin.addEventListener("click", () => setView("admin"));
 
   /* ---------- Scout-Key ----------
      Der Worker verlangt einen Schlüssel, damit nicht jeder, der die URL kennt,
@@ -1952,9 +2489,174 @@
   }
 
   /* =========================================================
-     10) INIT
+     10) TEAM — Partnerverwaltung (nur Admin)
+  ========================================================= */
+  const userGrid   = document.getElementById("userGrid");
+  const adminEmpty = document.getElementById("adminEmpty");
+
+  const TARGET_FIELDS = [
+    { key: "contacts", label: "Neue Kontakte / Monat" },
+    { key: "deals",    label: "Deals fix (gesamt)" },
+    { key: "replies",  label: "Antworten (gesamt)" }
+  ];
+
+  /** Auswahlliste oben im Tracker: nach Partner filtern. */
+  function renderOwnerFilter() {
+    const sel = document.getElementById("ownerFilter");
+    if (!isAdmin) return;
+
+    const unassigned = allRows.filter((r) => !r.ownerUid).length;
+    const opts = ['<option value="">Alle Partner</option>'];
+    if (unassigned) {
+      opts.push('<option value="__none__">Nicht zugeordnet (' + unassigned + ")</option>");
+    }
+    Object.keys(allProfiles).forEach((u) => {
+      const n = allRows.filter((r) => r.ownerUid === u).length;
+      opts.push('<option value="' + escapeAttr(u) + '">' +
+        escapeHtml(ownerLabel(u)) + " (" + n + ")</option>");
+    });
+
+    sel.innerHTML = opts.join("");
+    sel.value = ownerFilterValue;
+  }
+
+  function renderAdmin() {
+    if (!isAdmin) return;
+
+    const uids = Object.keys(allProfiles);
+    if (!uids.length) {
+      userGrid.innerHTML = "";
+      adminEmpty.style.display = "block";
+      return;
+    }
+    adminEmpty.style.display = "none";
+
+    // Wartende zuerst — die brauchen eine Entscheidung von dir.
+    const order = { pending: 0, active: 1, blocked: 2 };
+    uids.sort((a, b) => {
+      const oa = order[allProfiles[a].status] ?? 3;
+      const ob = order[allProfiles[b].status] ?? 3;
+      if (oa !== ob) return oa - ob;
+      return (allProfiles[a].email || "").localeCompare(allProfiles[b].email || "");
+    });
+
+    userGrid.innerHTML = uids.map(userCardHtml).join("");
+    attachAdminHandlers();
+  }
+
+  function userCardHtml(uid) {
+    const p = allProfiles[uid] || {};
+    const status = p.status || "pending";
+    const isSelf = currentUser && uid === currentUser.uid;
+    const rows = allRows.filter((r) => r.ownerUid === uid);
+    const targets = p.targets || {};
+
+    const statusLabel = { active: "Aktiv", pending: "Wartet", blocked: "Gesperrt" }[status] || status;
+
+    const targetInputs = TARGET_FIELDS.map((f) =>
+      "<div><label>" + f.label + "</label>" +
+      '<input type="number" min="0" placeholder="—" data-target-uid="' + escapeAttr(uid) + '" ' +
+      'data-target-key="' + f.key + '" value="' + (targets[f.key] || "") + '"></div>'
+    ).join("");
+
+    let actions = "";
+    if (isSelf) {
+      actions = '<span class="user-meta">Das bist du — Administrator</span>';
+    } else if (status === "pending") {
+      actions = '<button class="btn btn-ok" data-set-status="active" data-uid="' + escapeAttr(uid) + '">Freigeben</button>' +
+                '<button class="btn btn-danger" data-set-status="blocked" data-uid="' + escapeAttr(uid) + '">Ablehnen</button>';
+    } else if (status === "active") {
+      actions = '<button class="btn btn-danger" data-set-status="blocked" data-uid="' + escapeAttr(uid) + '">Sperren</button>' +
+                '<button class="btn" data-show-rows="' + escapeAttr(uid) + '">Kontakte ansehen</button>';
+    } else {
+      actions = '<button class="btn btn-ok" data-set-status="active" data-uid="' + escapeAttr(uid) + '">Entsperren</button>' +
+                '<button class="btn" data-show-rows="' + escapeAttr(uid) + '">Kontakte ansehen</button>';
+    }
+
+    return (
+      '<div class="user-card ' + status + (isSelf ? " self" : "") + '">' +
+        '<div class="user-head">' +
+          '<div class="who">' +
+            '<p class="user-mail">' + escapeHtml(p.email || ownerLabel(uid)) + "</p>" +
+            '<span class="user-meta">Seit ' + formatDate(p.createdAt) +
+              " · zuletzt " + formatDate(p.lastSeen) + "</span>" +
+          "</div>" +
+          '<span class="user-status ' + status + '">' + statusLabel + "</span>" +
+        "</div>" +
+
+        '<div class="user-counts">' +
+          '<span class="user-count">' + rows.length + " Kontakte</span>" +
+          '<span class="user-count">' + rows.filter((r) => r.status === "deal_fix").length + " Deals</span>" +
+          '<span class="user-count">' + rows.filter((r) => r.antwortErhalten).length + " Antworten</span>" +
+        "</div>" +
+
+        '<div class="user-targets">' + targetInputs + "</div>" +
+        '<div class="user-actions">' + actions + "</div>" +
+      "</div>"
+    );
+  }
+
+  function formatDate(v) {
+    const ms = toMillis(v);
+    if (!ms) return "—";
+    return new Date(ms).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "2-digit" });
+  }
+
+  function attachAdminHandlers() {
+    userGrid.querySelectorAll("[data-set-status]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const uid = btn.dataset.uid;
+        const status = btn.dataset.setStatus;
+        if (status === "blocked" &&
+            !confirm("Zugang für " + ownerLabel(uid) + " sperren?\n\n" +
+                     "Die Kontakte bleiben erhalten, er kommt nur nicht mehr heran.")) return;
+
+        btn.disabled = true;
+        db.collection(PROFILES).doc(uid).update({ status })
+          .then(flashSaved)
+          .catch((e) => {
+            window.alert("Änderung fehlgeschlagen:\n\n" + e.message);
+            btn.disabled = false;
+          });
+      });
+    });
+
+    // Ziele: beim Verlassen des Feldes speichern
+    userGrid.querySelectorAll("[data-target-uid]").forEach((input) => {
+      input.addEventListener("change", () => {
+        const uid = input.dataset.targetUid;
+        const key = input.dataset.targetKey;
+        const val = input.value === "" ? null : Math.max(0, Number(input.value) || 0);
+        db.collection(PROFILES).doc(uid)
+          .update({ ["targets." + key]: val })
+          .then(flashSaved)
+          .catch((e) => window.alert("Ziel konnte nicht gespeichert werden:\n\n" + e.message));
+      });
+    });
+
+    // In den Tracker springen, gefiltert auf diesen Partner
+    userGrid.querySelectorAll("[data-show-rows]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        ownerFilterValue = btn.dataset.showRows;
+        document.getElementById("ownerFilter").value = ownerFilterValue;
+        setView("tracker");
+        render();
+      });
+    });
+  }
+
+  /* =========================================================
+     11) INIT
   ========================================================= */
   document.getElementById("addBtn").addEventListener("click", addRow);
+
+  document.getElementById("gateLogoutBtn").addEventListener("click", () => auth.signOut());
+
+  document.getElementById("ownerFilter").addEventListener("change", (e) => {
+    ownerFilterValue = e.target.value;
+    render();
+  });
+
   startAuth();
 })();
 </script>
